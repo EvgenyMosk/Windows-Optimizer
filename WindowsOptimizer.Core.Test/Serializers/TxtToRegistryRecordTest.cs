@@ -68,19 +68,17 @@ namespace WindowsOptimizer.Core.Serializers.Test {
             string textToConvertFrom = @"HKEY_CURRENT_USER\Control Panel\Desktop,MenuShowDelay,1";
             TxtToRegistryRecordSerializer txtToRegistryRecordSerialize = new TxtToRegistryRecordSerializer();
 
-            RegistryKey expectedRoot = Registry.CurrentUser;
-            string expectedKey = @"Control Panel\Desktop";
-            string expectedValueName = "MenuShowDelay";
-            string expectedValue = "1";
-            RegistryValueKind expectedKind = RegistryValueKind.DWord;
+            RegistryKey root = Registry.CurrentUser;
+            string key = @"Control Panel\Desktop";
+            string valueName = "MenuShowDelay";
+            string value = "1";
+            RegistryValueKind valueKind = RegistryValueKind.DWord;
+
+            RegistryRecord expectedRegistryRecord = new RegistryRecord(root, key, valueName, value, valueKind);
 
             RegistryRecord actualRecord = (RegistryRecord)txtToRegistryRecordSerialize.StringToRegistryRecord(textToConvertFrom);
 
-            Assert.AreEqual(expectedRoot, actualRecord.Root);
-            Assert.AreEqual(expectedKey, actualRecord.Key);
-            Assert.AreEqual(expectedValueName, actualRecord.ValueName);
-            Assert.AreEqual(expectedValue, actualRecord.Value);
-            Assert.AreEqual(expectedKind, actualRecord.ValueKind);
+            Assert.AreEqual(expectedRegistryRecord, actualRecord);
         }
 
         [TestMethod()]
