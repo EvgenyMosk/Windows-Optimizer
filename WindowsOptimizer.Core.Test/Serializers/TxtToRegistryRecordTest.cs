@@ -117,6 +117,7 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
             Assert.IsTrue(exceptionWasThrown);
         }
+
         [TestMethod()]
         public void StringToMultipleRegistryRecords_EmptyString_ExpectArgumentNullException() {
             string textToConvertFrom = string.Empty;
@@ -132,6 +133,7 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
             Assert.IsTrue(exceptionWasThrown);
         }
+
         [TestMethod()]
         public void StringToMultipleRegistryRecords_TwoEmptyStrings_ExpectArgumentNullException() {
             string textToConvertFrom = "" + "\n" + "";
@@ -147,6 +149,7 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
             Assert.IsTrue(exceptionWasThrown);
         }
+
         [TestMethod()]
         public void StringToMultipleRegistryRecords_WhitespaceString_ExpectArgumentNullException() {
             string textToConvertFrom = " ";
@@ -162,6 +165,7 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
             Assert.IsTrue(exceptionWasThrown);
         }
+
         [TestMethod()]
         public void StringToMultipleRegistryRecords_TwoWhitespaceStrings_ExpectArgumentNullException() {
             string textToConvertFrom = " " + "\n" + " ";
@@ -177,6 +181,7 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
             Assert.IsTrue(exceptionWasThrown);
         }
+
         [TestMethod()]
         public void StringToMultipleRegistryRecords_TwoStringsBothFilledCorrectly_ExpectTwoRegistryRecords() {
             string textToConvertFrom = "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer,NoDriveTypeAutoRun,111\n" +
@@ -192,11 +197,6 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
             int i = 0;
             foreach (IRegistryRecord actualRecord in actualRegistryRecords) {
-                //Assert.AreEqual(expectedRegistryRecords[i].Root, actualRecord.Root);
-                //Assert.AreEqual(expectedRegistryRecords[i].Key, actualRecord.Key);
-                //Assert.AreEqual(expectedRegistryRecords[i].ValueName, actualRecord.ValueName);
-                //Assert.AreEqual(expectedRegistryRecords[i].Value, actualRecord.Value);
-                //Assert.AreEqual(expectedRegistryRecords[i].ValueKind, actualRecord.ValueKind);
                 Assert.AreEqual(expectedRegistryRecords[i], actualRecord);
                 i++;
             }
