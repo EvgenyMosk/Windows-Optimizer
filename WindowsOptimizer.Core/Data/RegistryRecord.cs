@@ -16,7 +16,7 @@ namespace WindowsOptimizer.Core.Data {
 
         #endregion
         #region Constructors
-        public RegistryRecord(RegistryKey root, string key, string valueName, string value, RegistryValueKind kind = RegistryValueKind.DWord) {
+        public RegistryRecord(RegistryKey root, string key, string valueName, object value, RegistryValueKind kind = RegistryValueKind.DWord) {
             Root = root;
             Key = key;
             ValueName = valueName;
@@ -24,7 +24,7 @@ namespace WindowsOptimizer.Core.Data {
             ValueKind = kind;
         }
 
-        public RegistryRecord(string root, string key, string valueName, string value, RegistryValueKind kind = RegistryValueKind.DWord) {
+        public RegistryRecord(string root, string key, string valueName, object value, RegistryValueKind kind = RegistryValueKind.DWord) {
             Root = ConvertStringToRegistryKey(root);
             Key = key;
             ValueName = valueName;
@@ -59,7 +59,8 @@ namespace WindowsOptimizer.Core.Data {
             return obj is RegistryRecord otherRegistryRecord
                 && Root == otherRegistryRecord.Root
                 && Key == otherRegistryRecord.Key
-                && Value == otherRegistryRecord.Value
+                && ValueName == otherRegistryRecord.ValueName
+                && (string)Value == (string)otherRegistryRecord.Value
                 && ValueKind == otherRegistryRecord.ValueKind;
         }
 

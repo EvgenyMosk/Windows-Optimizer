@@ -88,19 +88,17 @@ namespace WindowsOptimizer.Core.Serializers.Test {
             string textToConvertFrom = @"HKEY_CURRENT_USER\Control Panel\Desktop,MenuShowDelay,1,QWord";
             TxtToRegistryRecordSerializer txtToRegistryRecordSerialize = new TxtToRegistryRecordSerializer();
 
-            RegistryKey expectedRoot = Registry.CurrentUser;
-            string expectedKey = @"Control Panel\Desktop";
-            string expectedValueName = "MenuShowDelay";
-            string expectedValue = "1";
-            RegistryValueKind expectedKind = RegistryValueKind.QWord;
+            RegistryKey root = Registry.CurrentUser;
+            string key = @"Control Panel\Desktop";
+            string valueName = "MenuShowDelay";
+            string value = "1";
+            RegistryValueKind valueKind = RegistryValueKind.QWord;
+
+            RegistryRecord expectedRegistryRecord = new RegistryRecord(root, key, valueName, value, valueKind);
 
             RegistryRecord actualRecord = (RegistryRecord)txtToRegistryRecordSerialize.StringToRegistryRecord(textToConvertFrom);
 
-            Assert.AreEqual(expectedRoot, actualRecord.Root);
-            Assert.AreEqual(expectedKey, actualRecord.Key);
-            Assert.AreEqual(expectedValueName, actualRecord.ValueName);
-            Assert.AreEqual(expectedValue, actualRecord.Value);
-            Assert.AreEqual(expectedKind, actualRecord.ValueKind);
+            Assert.AreEqual(expectedRegistryRecord, actualRecord);
         }
         #endregion
         #region StringToMultipleRegistryRecords
@@ -194,6 +192,11 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
             int i = 0;
             foreach (IRegistryRecord actualRecord in actualRegistryRecords) {
+                //Assert.AreEqual(expectedRegistryRecords[i].Root, actualRecord.Root);
+                //Assert.AreEqual(expectedRegistryRecords[i].Key, actualRecord.Key);
+                //Assert.AreEqual(expectedRegistryRecords[i].ValueName, actualRecord.ValueName);
+                //Assert.AreEqual(expectedRegistryRecords[i].Value, actualRecord.Value);
+                //Assert.AreEqual(expectedRegistryRecords[i].ValueKind, actualRecord.ValueKind);
                 Assert.AreEqual(expectedRegistryRecords[i], actualRecord);
                 i++;
             }
