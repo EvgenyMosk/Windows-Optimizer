@@ -7,6 +7,7 @@ using Microsoft.Win32;
 
 namespace WindowsOptimizer.Core.Data {
     public class RegistryRecord : IRegistryRecord {
+        //Refactor to use only getters
         #region Properties and Fields
         public RegistryKey Root { get; set; }
         public string Key { get; set; }
@@ -55,6 +56,8 @@ namespace WindowsOptimizer.Core.Data {
             return Root + "\\" + Key + ", " + ValueName + "=" + Value + " (" + ValueKind.ToString() + ")";
         }
 
+        // Overload == and != operators
+        // Use referenceEquals
         public override bool Equals(object obj) {
             return obj is RegistryRecord otherRegistryRecord
                 && Root == otherRegistryRecord.Root
@@ -68,6 +71,7 @@ namespace WindowsOptimizer.Core.Data {
             return base.GetHashCode();
         }
 
+        //Consider deleting this method
         public int CompareTo(IRegistryRecord other) {
             if (other == null) {
                 throw new ArgumentNullException(nameof(other));

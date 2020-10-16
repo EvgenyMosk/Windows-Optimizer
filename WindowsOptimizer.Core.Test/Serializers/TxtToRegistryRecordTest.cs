@@ -12,6 +12,7 @@ using WindowsOptimizer.Core.Exceptions;
 using WindowsOptimizer.Core.Serializers;
 
 namespace WindowsOptimizer.Core.Serializers.Test {
+    // Consider transitioning to an object-test model (virtual methods)
     [TestClass()]
     public class TxtToRegistryRecordTest {
         #region StringToRegistryRecord tests

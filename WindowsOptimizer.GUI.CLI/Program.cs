@@ -18,8 +18,8 @@ namespace WindowsOptimizer.GUI.CLI {
             _registryEditorApplication = new RegistryEditorApplication(new TxtToRegistryRecordSerializer(), new RegistryEditor(), new FileReader());
 
             PrintTextLine("Enter the path to the file with the Registry Values:\n");
-            string pathToFile = GetUserInput();
-            //string pathToFile = @"D:\test.txt";
+            //string pathToFile = GetUserInput();
+            string pathToFile = @"D:\test.txt";
 
             _registryEditorApplication.PathToFile = pathToFile;
 
