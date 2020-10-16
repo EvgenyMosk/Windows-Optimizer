@@ -70,34 +70,5 @@ namespace WindowsOptimizer.Core.Data {
         public override int GetHashCode() {
             return base.GetHashCode();
         }
-
-        //Consider deleting this method
-        public int CompareTo(IRegistryRecord other) {
-            if (other == null) {
-                throw new ArgumentNullException(nameof(other));
-            }
-
-            int compareToResult_Root = Root.ToString().CompareTo(other.Root.ToString());
-            if (compareToResult_Root == 0) {
-                int compareToResult_Key = Key.ToString().CompareTo(other.Key.ToString());
-                if (compareToResult_Key == 0) {
-                    int compareToResult_ValueName = ValueName.ToString().CompareTo(other.ValueName.ToString());
-                    if (compareToResult_ValueName == 0) {
-                        int compareToResult_Value = Value.ToString().CompareTo(other.Value.ToString());
-                        if (compareToResult_Value == 0) {
-                            return ValueKind.CompareTo(other.ValueKind);
-                        } else {
-                            return compareToResult_Value;
-                        }
-                    } else {
-                        return compareToResult_ValueName;
-                    }
-                } else {
-                    return compareToResult_Key;
-                }
-            } else {
-                return compareToResult_Root;
-            }
-        }
     }
 }

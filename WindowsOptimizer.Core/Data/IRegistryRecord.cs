@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Win32;
 
 namespace WindowsOptimizer.Core.Data {
-    public interface IRegistryRecord : IComparable<IRegistryRecord> {
+    public interface IRegistryRecord {
         RegistryKey Root { get; set; }
         string Key { get; set; }
         string ValueName { get; set; }
