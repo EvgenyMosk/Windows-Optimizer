@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 using Microsoft.Win32;
@@ -59,16 +60,59 @@ namespace WindowsOptimizer.Core.Data {
         // Overload == and != operators
         // Use referenceEquals
         public override bool Equals(object obj) {
-            return obj is RegistryRecord otherRegistryRecord
-                && Root == otherRegistryRecord.Root
-                && Key == otherRegistryRecord.Key
-                && ValueName == otherRegistryRecord.ValueName
-                && (string)Value == (string)otherRegistryRecord.Value
-                && ValueKind == otherRegistryRecord.ValueKind;
+            if (obj == null) {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj)) {
+                return true;
+            }
+
+            if (GetType() != obj.GetType()) {
+                return false;
+            }
+
+            return Equals(obj as RegistryRecord);
         }
 
         public override int GetHashCode() {
             return base.GetHashCode();
+        }
+
+        public bool Equals(IRegistryRecord other) {
+            if (other == null) {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other)) {
+                return true;
+            }
+
+            if (GetType() != other.GetType()) {
+                return false;
+            }
+
+            //IList<int> comparisonResult = new List<int>();
+            //IList<PropertyInfo> thisProperties = GetType().GetProperties().ToList();
+            //IList<PropertyInfo> otherProperties = other.GetType().GetProperties().ToList();
+
+            //if (thisProperties.Count != otherProperties.Count) {
+            //    return false;
+            //}
+
+            IList<int> comparisonResult = new List<int> {
+                string.Compare(Root.ToString(), other.Root.ToString()),
+                string.Compare(Key,other.Key),
+                string.Compare(ValueName,other.ValueName),
+                string.Compare(Value.ToString(),other.Value.ToString()),
+                string.Compare(ValueKind.ToString(),other.ValueKind.ToString())
+            };
+
+            if (comparisonResult.Sum() == 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }
