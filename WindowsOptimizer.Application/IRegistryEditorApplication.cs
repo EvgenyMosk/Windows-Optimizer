@@ -26,8 +26,6 @@ namespace WindowsOptimizer.Application {
         string ReadFromFile(string pathToFile);
         IRegistryRecord CreateRegistryRecordObj(string root, string key, string valueName, string value, RegistryValueKind kind);
         IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(IEnumerable<string> textToParse);
-        // Same as above
-        bool SetRegistryValue(IRegistryRecord registryRecord);
         IEnumerable<bool> SetRegistryValues(IEnumerable<IRegistryRecord> registryRecords);
     }
 }

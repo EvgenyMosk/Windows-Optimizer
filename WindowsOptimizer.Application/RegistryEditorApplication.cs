@@ -49,10 +49,6 @@ namespace WindowsOptimizer.Application {
             throw new NotImplementedException();
         }
 
-        public bool SetRegistryValue(IRegistryRecord registryRecord) {
-            return RegistryEditor.SetRegistryValue(registryRecord);
-        }
-
         public IEnumerable<bool> SetRegistryValues(IEnumerable<IRegistryRecord> registryRecords) {
             IList<bool> registryChangesResult = new List<bool>();
 
