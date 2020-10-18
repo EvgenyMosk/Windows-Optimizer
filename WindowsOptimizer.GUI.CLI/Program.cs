@@ -26,7 +26,9 @@ namespace WindowsOptimizer.GUI.CLI {
             //string keyName = "HKEY_CURRENT_USER\\Control Panel\\Desktop";
             //string valueName = "MenuShowDelay";
 
-            string fileContent = _registryEditorApplication.ReadFromFile();
+            string[] text = _registryEditorApplication.ReadFromFile().Split(new char[] { '\n' });
+
+            List<string> fileContent = new List<string>(text);
 
             IEnumerable<IRegistryRecord> registryRecords = _registryEditorApplication.CreateRegistryRecordsObjs(fileContent);
 
@@ -42,7 +44,7 @@ namespace WindowsOptimizer.GUI.CLI {
                 PrintTextLine(recordExistsTxt + " " + regRecord.ToString());
             }
 
-            _registryEditorApplication.SetRegistryValue(registryRecords.Where(x => x.ValueName == "MenuShowDelay").FirstOrDefault());
+            //_registryEditorApplication.SetRegistryValue(registryRecords.Where(x => x.ValueName == "MenuShowDelay").FirstOrDefault());
 
             Console.ReadLine();
         }

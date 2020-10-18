@@ -25,9 +25,7 @@ namespace WindowsOptimizer.Application {
         string ReadFromFile();
         string ReadFromFile(string pathToFile);
         IRegistryRecord CreateRegistryRecordObj(string root, string key, string valueName, string value, RegistryValueKind kind);
-        // Use IEnumerable<string> instead of 2 diff methods
-        IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(string textToParse);
-        IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(string[] testToParse);
+        IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(IEnumerable<string> textToParse);
         // Same as above
         bool SetRegistryValue(IRegistryRecord registryRecord);
         IEnumerable<bool> SetRegistryValues(IEnumerable<IRegistryRecord> registryRecords);

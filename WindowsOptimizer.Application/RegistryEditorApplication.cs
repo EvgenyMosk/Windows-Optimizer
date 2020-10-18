@@ -29,11 +29,7 @@ namespace WindowsOptimizer.Application {
             return registryRecord;
         }
 
-        public IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(string textToParse) {
-            return Serializer.StringToMultipleRegistryRecords(textToParse);
-        }
-
-        public IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(string[] textToParse) {
+        public IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(IEnumerable<string> textToParse) {
             return Serializer.StringToMultipleRegistryRecords(textToParse);
         }
 
