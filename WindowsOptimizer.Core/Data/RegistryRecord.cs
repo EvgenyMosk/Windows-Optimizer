@@ -8,13 +8,12 @@ using Microsoft.Win32;
 
 namespace WindowsOptimizer.Core.Data {
     public class RegistryRecord : IRegistryRecord {
-        //Refactor to use only getters
         #region Properties and Fields
-        public RegistryKey Root { get; set; }
-        public string Key { get; set; }
-        public string ValueName { get; set; }
-        public object Value { get; set; }
-        public RegistryValueKind ValueKind { get; set; }
+        public RegistryKey Root { get; }
+        public string Key { get; }
+        public string ValueName { get; }
+        public object Value { get; }
+        public RegistryValueKind ValueKind { get; }
 
         #endregion
         #region Constructors
@@ -57,8 +56,6 @@ namespace WindowsOptimizer.Core.Data {
             return Root + "\\" + Key + ", " + ValueName + "=" + Value + " (" + ValueKind.ToString() + ")";
         }
 
-        // Overload == and != operators
-        // Use referenceEquals
         public override bool Equals(object obj) {
             if (obj == null) {
                 return false;
@@ -113,6 +110,14 @@ namespace WindowsOptimizer.Core.Data {
             } else {
                 return false;
             }
+        }
+
+        public static bool operator ==(RegistryRecord recordLeft, RegistryRecord recordRight) {
+            return ReferenceEquals(recordLeft, recordRight);
+        }
+
+        public static bool operator !=(RegistryRecord recordLeft, RegistryRecord recordRight) {
+            return ReferenceEquals(recordLeft, recordRight);
         }
     }
 }
