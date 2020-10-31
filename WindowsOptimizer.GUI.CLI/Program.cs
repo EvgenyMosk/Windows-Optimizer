@@ -21,12 +21,11 @@ namespace WindowsOptimizer.GUI.CLI {
             //string pathToFile = GetUserInput();
             string pathToFile = @"D:\test.txt";
 
-            _registryEditorApplication.PathToFile = pathToFile;
 
             //string keyName = "HKEY_CURRENT_USER\\Control Panel\\Desktop";
             //string valueName = "MenuShowDelay";
 
-            string[] text = _registryEditorApplication.ReadFromFile().Split(new char[] { '\n' });
+            string[] text = _registryEditorApplication.ReadFromFile(pathToFile).Split(new char[] { '\n' });
 
             List<string> fileContent = new List<string>(text);
 
