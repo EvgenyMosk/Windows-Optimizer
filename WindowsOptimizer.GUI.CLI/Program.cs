@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using WindowsOptimizer.Application;
 using WindowsOptimizer.Core.Data;
@@ -11,6 +12,7 @@ using WindowsOptimizer.Core.Serializers;
 namespace WindowsOptimizer.GUI.CLI {
 	internal class Program {
 		private static RegistryEditorApplication _registryEditorApplication;
+		private const string _abortprogstr = "Aborting program execution...";
 		private static void Main(string[] args) {
 			_registryEditorApplication = new RegistryEditorApplication(new TxtToRegistryRecordSerializer(), new RegistryEditor(), new FileReader());
 
@@ -24,14 +26,29 @@ namespace WindowsOptimizer.GUI.CLI {
 				text = _registryEditorApplication.ReadFromFile(pathToFile).Split(new char[] { '\n' });
 			} catch (FileNotFoundException) {
 				PrintTextLine("The specified file was not found!");
-				PrintTextLine("Aborting program execution...");
-				GetUserInput();
+				PrintTextLine(_abortprogstr);
+				Console.ReadKey();
 				return;
 			}
 
 			List<string> fileContent = new List<string>(text);
 
+			if(fileContent==null || fileContent.Count == 0) {
+				PrintTextLine("No content was extracted from a given file!");
+				PrintTextLine(_abortprogstr);
+				Console.ReadKey();
+				return;
+			}
+
 			IEnumerable<IRegistryRecord> registryRecords = _registryEditorApplication.CreateRegistryRecordsObjs(fileContent);
+
+			if (registryRecords == null || registryRecords.Count()==0) {
+				PrintTextLine("No registry paths were extracted from a given file!\n" +
+					"Check the file content for errors.");
+				PrintTextLine(_abortprogstr);
+				Console.ReadKey();
+				return;
+			}
 
 			foreach (IRegistryRecord regRecord in registryRecords) {
 				string recordExistsTxt = "";
@@ -45,7 +62,7 @@ namespace WindowsOptimizer.GUI.CLI {
 				PrintTextLine(recordExistsTxt + " " + regRecord.ToString());
 			}
 
-			//_registryEditorApplication.SetRegistryValue(registryRecords);
+			_registryEditorApplication.SetRegistryValues(registryRecords);
 
 			Console.ReadLine();
 		}
