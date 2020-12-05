@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Microsoft.Win32;
+using System.IO;
 
 using WindowsOptimizer.Application;
 using WindowsOptimizer.Core.Data;
@@ -12,71 +9,76 @@ using WindowsOptimizer.Core.RegistryEditors;
 using WindowsOptimizer.Core.Serializers;
 
 namespace WindowsOptimizer.GUI.CLI {
-    internal class Program {
-        private static RegistryEditorApplication _registryEditorApplication;
-        private static void Main(string[] args) {
-            _registryEditorApplication = new RegistryEditorApplication(new TxtToRegistryRecordSerializer(), new RegistryEditor(), new FileReader());
+	internal class Program {
+		private static RegistryEditorApplication _registryEditorApplication;
+		private static void Main(string[] args) {
+			_registryEditorApplication = new RegistryEditorApplication(new TxtToRegistryRecordSerializer(), new RegistryEditor(), new FileReader());
 
-            PrintTextLine("Enter the path to the file with the Registry Values:\n");
-            //string pathToFile = GetUserInput();
-            string pathToFile = @"D:\test.txt";
+			PrintTextLine("Enter the path to the file with the Registry Values:");
+			PrintText("Path to file: ");
+			string pathToFile = GetUserInput();
 
+			string[] text = null;
 
-            //string keyName = "HKEY_CURRENT_USER\\Control Panel\\Desktop";
-            //string valueName = "MenuShowDelay";
+			try {
+				text = _registryEditorApplication.ReadFromFile(pathToFile).Split(new char[] { '\n' });
+			} catch (FileNotFoundException) {
+				PrintTextLine("The specified file was not found!");
+				PrintTextLine("Aborting program execution...");
+				GetUserInput();
+				return;
+			}
 
-            string[] text = _registryEditorApplication.ReadFromFile(pathToFile).Split(new char[] { '\n' });
+			List<string> fileContent = new List<string>(text);
 
-            List<string> fileContent = new List<string>(text);
+			IEnumerable<IRegistryRecord> registryRecords = _registryEditorApplication.CreateRegistryRecordsObjs(fileContent);
 
-            IEnumerable<IRegistryRecord> registryRecords = _registryEditorApplication.CreateRegistryRecordsObjs(fileContent);
+			foreach (IRegistryRecord regRecord in registryRecords) {
+				string recordExistsTxt = "";
 
-            foreach (IRegistryRecord regRecord in registryRecords) {
-                string recordExistsTxt = "";
+				if (_registryEditorApplication.RegistryRecordExists(regRecord)) {
+					recordExistsTxt = "[+]";
+				} else {
+					recordExistsTxt = "[X]";
+				}
+				
+				PrintTextLine(recordExistsTxt + " " + regRecord.ToString());
+			}
 
-                if (_registryEditorApplication.RegistryRecordExists(regRecord)) {
-                    recordExistsTxt = "[+]";
-                } else {
-                    recordExistsTxt = "[X]";
-                }
+			//_registryEditorApplication.SetRegistryValue(registryRecords);
 
-                PrintTextLine(recordExistsTxt + " " + regRecord.ToString());
-            }
+			Console.ReadLine();
+		}
+		#region Basic console IO methods
+		private static string GetUserInput() {
+			string userInput;
 
-            //_registryEditorApplication.SetRegistryValue(registryRecords.Where(x => x.ValueName == "MenuShowDelay").FirstOrDefault());
+			userInput = Console.ReadLine();
+			userInput = userInput.Trim();
 
-            Console.ReadLine();
-        }
-        #region Basic console IO methods
-        private static string GetUserInput() {
-            string userInput;
+			return userInput;
+		}
 
-            userInput = Console.ReadLine();
-            userInput = userInput.Trim();
+		private static void PrintText(string text) {
+			Console.Write(text);
+		}
 
-            return userInput;
-        }
+		private static void PrintTextLine(string text) {
+			Console.WriteLine(text);
+		}
+		#endregion
+		#region Structured console output methods
+		private static void PrintGreeting() {
 
-        private static void PrintText(string text) {
-            Console.Write(text);
-        }
+		}
 
-        private static void PrintTextLine(string text) {
-            Console.WriteLine(text);
-        }
-        #endregion
-        #region Structured console output methods
-        private static void PrintGreeting() {
+		private static void PrintMenu() {
 
-        }
+		}
 
-        private static void PrintMenu() {
+		private static void PrintRegistryRecord() {
 
-        }
-
-        private static void PrintRegistryRecord() {
-
-        }
-        #endregion
-    }
+		}
+		#endregion
+	}
 }
