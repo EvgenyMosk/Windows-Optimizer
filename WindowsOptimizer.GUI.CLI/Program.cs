@@ -33,16 +33,16 @@ namespace WindowsOptimizer.GUI.CLI {
 
 			List<string> fileContent = new List<string>(text);
 
-			if(fileContent==null || fileContent.Count == 0) {
+			if (fileContent == null || fileContent.Count == 0) {
 				PrintTextLine("No content was extracted from a given file!");
 				PrintTextLine(_abortprogstr);
 				Console.ReadKey();
 				return;
 			}
 
-			IEnumerable<IRegistryRecord> registryRecords = _registryEditorApplication.CreateRegistryRecordsObjs(fileContent);
+			IList<IRegistryRecord> registryRecords = (IList<IRegistryRecord>)_registryEditorApplication.CreateRegistryRecordsObjs(fileContent);
 
-			if (registryRecords == null || registryRecords.Count()==0) {
+			if (registryRecords == null || registryRecords.Count() == 0) {
 				PrintTextLine("No registry paths were extracted from a given file!\n" +
 					"Check the file content for errors.");
 				PrintTextLine(_abortprogstr);
@@ -58,11 +58,43 @@ namespace WindowsOptimizer.GUI.CLI {
 				} else {
 					recordExistsTxt = "[X]";
 				}
-				
+
 				PrintTextLine(recordExistsTxt + " " + regRecord.ToString());
 			}
 
-			_registryEditorApplication.SetRegistryValues(registryRecords);
+			PrintTextLine("You are about to make changes to your registry." +
+				"Please, type 'YES' if you agree to proceed.");
+			string userAnswer = GetUserInput();
+
+			IEnumerable<bool> changedValues;
+
+			if (userAnswer.ToLower() == "yes") {
+				PrintTextLine("Changing the registry values...");
+				changedValues = _registryEditorApplication.SetRegistryValues(registryRecords);
+			} else {
+				PrintTextLine("You have aborted the changes.");
+				Console.ReadKey();
+				return;
+			}
+
+			int numberOfChangedValues = changedValues.Where(x => x == true).Count();
+
+			bool isAtLeastOneNotChangedValue = changedValues.Count() > numberOfChangedValues ? true : false;
+
+			if (numberOfChangedValues > 0) {
+				PrintTextLine($"{numberOfChangedValues} registry values were changed.");
+			}
+
+			if (isAtLeastOneNotChangedValue) {
+				PrintTextLine("The following registry values were NOT changed:");
+
+				int i = 0;
+				foreach (bool changedValue in changedValues) {
+					if (changedValue == false) {
+						PrintTextLine(registryRecords[i].ToString());
+					}
+				}
+			}
 
 			Console.ReadLine();
 		}
