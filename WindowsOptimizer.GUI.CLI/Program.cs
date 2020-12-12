@@ -12,11 +12,14 @@ using WindowsOptimizer.Core.Serializers;
 namespace WindowsOptimizer.GUI.CLI {
 	internal class Program {
 		private static RegistryEditorApplication _registryEditorApplication;
-		private const string _abortprogstr = "Aborting program execution...";
+
+		private const string _abortProgStr = "Aborting program execution...";
+		private const string _regRecExistStr = "[+]";
+		private const string _regRecNotExistStr = "[X]";
 		private static void Main(string[] args) {
 			_registryEditorApplication = new RegistryEditorApplication(new TxtToRegistryRecordSerializer(), new RegistryEditor(), new FileReader());
 
-			PrintTextLine("Enter the path to the file with the Registry Values:");
+			PrintTextLine("Enter the path to the file with the Registry Values (e.g. D:\\Documents\\My settings\\config.txt).");
 			PrintText("Path to file: ");
 			string pathToFile = GetUserInput();
 
@@ -26,7 +29,7 @@ namespace WindowsOptimizer.GUI.CLI {
 				text = _registryEditorApplication.ReadFromFile(pathToFile).Split(new char[] { '\n' });
 			} catch (FileNotFoundException) {
 				PrintTextLine("The specified file was not found!");
-				PrintTextLine(_abortprogstr);
+				PrintTextLine(_abortProgStr);
 				Console.ReadKey();
 				return;
 			}
@@ -35,7 +38,7 @@ namespace WindowsOptimizer.GUI.CLI {
 
 			if (fileContent == null || fileContent.Count == 0) {
 				PrintTextLine("No content was extracted from a given file!");
-				PrintTextLine(_abortprogstr);
+				PrintTextLine(_abortProgStr);
 				Console.ReadKey();
 				return;
 			}
@@ -45,22 +48,27 @@ namespace WindowsOptimizer.GUI.CLI {
 			if (registryRecords == null || registryRecords.Count() == 0) {
 				PrintTextLine("No registry paths were extracted from a given file!\n" +
 					"Check the file content for errors.");
-				PrintTextLine(_abortprogstr);
+				PrintTextLine(_abortProgStr);
 				Console.ReadKey();
 				return;
 			}
+
+			PrintTextLine("\nRegistry Records that were fetched from the given file:");
 
 			foreach (IRegistryRecord regRecord in registryRecords) {
 				string recordExistsTxt = "";
 
 				if (_registryEditorApplication.RegistryRecordExists(regRecord)) {
-					recordExistsTxt = "[+]";
+					recordExistsTxt = _regRecExistStr;
 				} else {
-					recordExistsTxt = "[X]";
+					recordExistsTxt = _regRecNotExistStr;
 				}
 
 				PrintTextLine(recordExistsTxt + " " + regRecord.ToString());
 			}
+
+			PrintTextLine($"  *{_regRecExistStr} - record exist but contains another value\n" +
+						  $"   {_regRecNotExistStr} - record was not found in the registry\n");
 
 			PrintTextLine("You are about to make changes to your registry." +
 				"Please, type 'YES' if you agree to proceed.");
@@ -69,7 +77,7 @@ namespace WindowsOptimizer.GUI.CLI {
 			IEnumerable<bool> changedValues;
 
 			if (userAnswer.ToLower() == "yes") {
-				PrintTextLine("Changing the registry values...");
+				PrintTextLine("Setting the registry values...");
 				changedValues = _registryEditorApplication.SetRegistryValues(registryRecords);
 			} else {
 				PrintTextLine("You have aborted the changes.");
@@ -82,11 +90,11 @@ namespace WindowsOptimizer.GUI.CLI {
 			bool isAtLeastOneNotChangedValue = changedValues.Count() > numberOfChangedValues ? true : false;
 
 			if (numberOfChangedValues > 0) {
-				PrintTextLine($"{numberOfChangedValues} registry values were changed.");
+				PrintTextLine($"{numberOfChangedValues} registry value(s) was/were set.");
 			}
 
 			if (isAtLeastOneNotChangedValue) {
-				PrintTextLine("The following registry values were NOT changed:");
+				PrintTextLine("The following registry value(s) was/were NOT changed:");
 
 				int i = 0;
 				foreach (bool changedValue in changedValues) {
