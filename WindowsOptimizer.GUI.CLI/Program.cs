@@ -87,13 +87,13 @@ namespace WindowsOptimizer.GUI.CLI {
 
 			int numberOfChangedValues = changedValues.Where(x => x == true).Count();
 
-			bool isAtLeastOneNotChangedValue = changedValues.Count() > numberOfChangedValues ? true : false;
+			bool atLeastOneNotChangedValue = changedValues.Count() > numberOfChangedValues ? true : false;
 
 			if (numberOfChangedValues > 0) {
 				PrintTextLine($"{numberOfChangedValues} registry value(s) was/were set.");
 			}
 
-			if (isAtLeastOneNotChangedValue) {
+			if (atLeastOneNotChangedValue) {
 				PrintTextLine("The following registry value(s) was/were NOT changed:");
 
 				int i = 0;
