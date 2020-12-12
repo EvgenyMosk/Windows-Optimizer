@@ -16,7 +16,7 @@ namespace WindowsOptimizer.GUI.CLI {
 		private const string _abortProgStr = "Aborting program execution...";
 		private const string _regRecExistStr = "[+]";
 		private const string _regRecNotExistStr = "[X]";
-		private static void Main(string[] args) {
+		private static void Main() {
 			_registryEditorApplication = new RegistryEditorApplication(new TxtToRegistryRecordSerializer(), new RegistryEditor(), new FileReader());
 
 			PrintTextLine("Enter the path to the file with the Registry Values (e.g. D:\\Documents\\My settings\\config.txt).");
@@ -87,7 +87,7 @@ namespace WindowsOptimizer.GUI.CLI {
 
 			int numberOfChangedValues = changedValues.Where(x => x == true).Count();
 
-			bool atLeastOneNotChangedValue = changedValues.Count() > numberOfChangedValues ? true : false;
+			bool atLeastOneNotChangedValue = changedValues.Count() > numberOfChangedValues;
 
 			if (numberOfChangedValues > 0) {
 				PrintTextLine($"{numberOfChangedValues} registry value(s) was/were set.");
