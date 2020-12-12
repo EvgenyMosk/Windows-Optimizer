@@ -13,10 +13,9 @@ using WindowsOptimizer.Core.Serializers;
 namespace WindowsOptimizer.Application {
     public class RegistryEditorApplication : IRegistryEditorApplication {
         public IList<IRegistryRecord> PendingRegistryRecordsChanges { get; }
-        public string PathToFile { get; set; }
-        public ISerializer Serializer { get; set; }
-        public IRegistryEditor RegistryEditor { get; set; }
-        public IFileReader FileReader { get; set; }
+        public ISerializer Serializer { get; }
+        public IRegistryEditor RegistryEditor { get; }
+        public IFileReader FileReader { get; }
 
         public RegistryEditorApplication(ISerializer serializer, IRegistryEditor registryEditor, IFileReader fileReader) {
             Serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -24,21 +23,8 @@ namespace WindowsOptimizer.Application {
             FileReader = fileReader ?? throw new ArgumentNullException(nameof(fileReader));
         }
 
-        public IRegistryRecord CreateRegistryRecordObj(string root, string key, string valueName, string value, RegistryValueKind kind) {
-            RegistryRecord registryRecord = new RegistryRecord(root, key, valueName, value, kind);
-            return registryRecord;
-        }
-
-        public IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(string textToParse) {
+        public IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(IEnumerable<string> textToParse) {
             return Serializer.StringToMultipleRegistryRecords(textToParse);
-        }
-
-        public IEnumerable<IRegistryRecord> CreateRegistryRecordsObjs(string[] textToParse) {
-            return Serializer.StringToMultipleRegistryRecords(textToParse);
-        }
-
-        public string ReadFromFile() {
-            return ReadFromFile(PathToFile);
         }
 
         public string ReadFromFile(string pathToFile) {
@@ -51,10 +37,6 @@ namespace WindowsOptimizer.Application {
 
         public IDictionary<IRegistryRecord, bool> RegistryRecordsExist(IEnumerable<IRegistryRecord> registryRecords) {
             throw new NotImplementedException();
-        }
-
-        public bool SetRegistryValue(IRegistryRecord registryRecord) {
-            return RegistryEditor.SetRegistryValue(registryRecord);
         }
 
         public IEnumerable<bool> SetRegistryValues(IEnumerable<IRegistryRecord> registryRecords) {

@@ -20,10 +20,9 @@ namespace WindowsOptimizer.Core.Serializers {
             ValidateInputData(text);
 
             string tmpRoot = GetRootFromRegistryPath(text[0]);
-            string registryPath = GetRegistryPathFromString(text[0], tmpRoot);
+            string key = GetRegistryPathFromString(text[0], tmpRoot);
 
             RegistryKey root = RegistryRecord.ConvertStringToRegistryKey(tmpRoot);
-            string key = registryPath;
             string valueName = text[1];
             string value = text[2];
             RegistryValueKind valueKind = RegistryValueKind.DWord; // Default value
@@ -32,7 +31,7 @@ namespace WindowsOptimizer.Core.Serializers {
                 valueKind = (RegistryValueKind)Enum.Parse(typeof(RegistryValueKind), text[3], true);
             }
 
-            return new RegistryRecord(root, registryPath, valueName, value, valueKind);
+            return new RegistryRecord(root, key, valueName, value, valueKind);
         }
 
         private void ValidateInputData(string[] text) {
@@ -69,20 +68,8 @@ namespace WindowsOptimizer.Core.Serializers {
             return registryPath;
         }
 
-        public IEnumerable<IRegistryRecord> StringToMultipleRegistryRecords(string textToConvertFrom) {
-            if (StringExtensions.IsNullOrEmptyWhitespace_Ext(textToConvertFrom)) {
-                throw new ArgumentNullException(nameof(textToConvertFrom));
-            }
-
-            string[] textToConvertFromSplitted = textToConvertFrom.Split(new char[] { '\n' });
-
-            return StringToMultipleRegistryRecords(textToConvertFromSplitted);
-        }
-
-        public IEnumerable<IRegistryRecord> StringToMultipleRegistryRecords(string[] textToConvertFrom) {
-            if (textToConvertFrom == null || textToConvertFrom.Length == 0) {
-                throw new ArgumentNullException(nameof(textToConvertFrom));
-            }
+        public IEnumerable<IRegistryRecord> StringToMultipleRegistryRecords(IEnumerable<string> textToConvertFrom) {
+            ValidateInputData();
 
             IList<IRegistryRecord> result = new List<IRegistryRecord>();
 
@@ -94,6 +81,19 @@ namespace WindowsOptimizer.Core.Serializers {
             }
 
             return result;
+
+            void ValidateInputData() {
+                if (textToConvertFrom == null) {
+                    throw new ArgumentNullException(nameof(textToConvertFrom));
+                }
+
+                int textRowsCount = textToConvertFrom.Count();
+                int textNullRows = textToConvertFrom.Where(x => x.Trim().Length == 0).Count();
+
+                if (textRowsCount == textNullRows) {
+                    throw new ArgumentNullException(nameof(textToConvertFrom));
+                }
+            }
         }
     }
 }

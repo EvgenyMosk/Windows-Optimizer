@@ -103,7 +103,9 @@ namespace WindowsOptimizer.Core.Serializers.Test {
         #region StringToMultipleRegistryRecords
         [TestMethod()]
         public void StringToMultipleRegistryRecords_NullArgument_ExpectArgumentNullException() {
-            string textToConvertFrom = null;
+            List<string> textToConvertFrom = new List<string> {
+                null
+            };
             TxtToRegistryRecordSerializer txtToRegistryRecordSerialize = new TxtToRegistryRecordSerializer();
 
             bool exceptionWasThrown = false;
@@ -119,7 +121,9 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
         [TestMethod()]
         public void StringToMultipleRegistryRecords_EmptyString_ExpectArgumentNullException() {
-            string textToConvertFrom = string.Empty;
+            List<string> textToConvertFrom = new List<string> {
+                string.Empty
+            };
             TxtToRegistryRecordSerializer txtToRegistryRecordSerialize = new TxtToRegistryRecordSerializer();
 
             bool exceptionWasThrown = false;
@@ -135,7 +139,10 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
         [TestMethod()]
         public void StringToMultipleRegistryRecords_TwoEmptyStrings_ExpectArgumentNullException() {
-            string textToConvertFrom = "" + "\n" + "";
+            List<string> textToConvertFrom = new List<string> {
+                "",
+                ""
+            };
             TxtToRegistryRecordSerializer txtToRegistryRecordSerialize = new TxtToRegistryRecordSerializer();
 
             bool exceptionWasThrown = false;
@@ -151,7 +158,9 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
         [TestMethod()]
         public void StringToMultipleRegistryRecords_WhitespaceString_ExpectArgumentNullException() {
-            string textToConvertFrom = " ";
+            List<string> textToConvertFrom = new List<string> {
+                " "
+            };
             TxtToRegistryRecordSerializer txtToRegistryRecordSerialize = new TxtToRegistryRecordSerializer();
 
             bool exceptionWasThrown = false;
@@ -167,7 +176,10 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
         [TestMethod()]
         public void StringToMultipleRegistryRecords_TwoWhitespaceStrings_ExpectArgumentNullException() {
-            string textToConvertFrom = " " + "\n" + " ";
+            List<string> textToConvertFrom = new List<string> {
+                " ",
+                " "
+            };
             TxtToRegistryRecordSerializer txtToRegistryRecordSerialize = new TxtToRegistryRecordSerializer();
 
             bool exceptionWasThrown = false;
@@ -183,8 +195,10 @@ namespace WindowsOptimizer.Core.Serializers.Test {
 
         [TestMethod()]
         public void StringToMultipleRegistryRecords_TwoStringsBothFilledCorrectly_ExpectTwoRegistryRecords() {
-            string textToConvertFrom = "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer,NoDriveTypeAutoRun,111\n" +
-                                        "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer,NoDriveTypeAutoRun,112";
+            List<string> textToConvertFrom = new List<string> {
+                "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer,NoDriveTypeAutoRun,111",
+                "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer,NoDriveTypeAutoRun,112"
+            };
             List<IRegistryRecord> expectedRegistryRecords = new List<IRegistryRecord> {
                 new RegistryRecord("HKEY_LOCAL_MACHINE", @"Software\Microsoft\Windows\CurrentVersion\Policies\Explorer","NoDriveTypeAutoRun", "111"),
                 new RegistryRecord("HKEY_LOCAL_MACHINE", @"Software\Microsoft\Windows\CurrentVersion\Policies\Explorer","NoDriveTypeAutoRun", "112")

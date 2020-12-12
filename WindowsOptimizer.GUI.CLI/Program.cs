@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-
-using Microsoft.Win32;
 
 using WindowsOptimizer.Application;
 using WindowsOptimizer.Core.Data;
@@ -12,70 +10,132 @@ using WindowsOptimizer.Core.RegistryEditors;
 using WindowsOptimizer.Core.Serializers;
 
 namespace WindowsOptimizer.GUI.CLI {
-    internal class Program {
-        private static RegistryEditorApplication _registryEditorApplication;
-        private static void Main(string[] args) {
-            _registryEditorApplication = new RegistryEditorApplication(new TxtToRegistryRecordSerializer(), new RegistryEditor(), new FileReader());
+	internal class Program {
+		private static RegistryEditorApplication _registryEditorApplication;
 
-            PrintTextLine("Enter the path to the file with the Registry Values:\n");
-            //string pathToFile = GetUserInput();
-            string pathToFile = @"D:\test.txt";
+		private const string _abortProgStr = "Aborting program execution...";
+		private const string _regRecExistStr = "[+]";
+		private const string _regRecNotExistStr = "[X]";
+		private static void Main() {
+			_registryEditorApplication = new RegistryEditorApplication(new TxtToRegistryRecordSerializer(), new RegistryEditor(), new FileReader());
 
-            _registryEditorApplication.PathToFile = pathToFile;
+			PrintTextLine("Enter the path to the file with the Registry Values (e.g. D:\\Documents\\My settings\\config.txt).");
+			PrintText("Path to file: ");
+			string pathToFile = GetUserInput();
 
-            //string keyName = "HKEY_CURRENT_USER\\Control Panel\\Desktop";
-            //string valueName = "MenuShowDelay";
+			string[] text = null;
 
-            string fileContent = _registryEditorApplication.ReadFromFile();
+			try {
+				text = _registryEditorApplication.ReadFromFile(pathToFile).Split(new char[] { '\n' });
+			} catch (FileNotFoundException) {
+				PrintTextLine("The specified file was not found!");
+				PrintTextLine(_abortProgStr);
+				Console.ReadKey();
+				return;
+			}
 
-            IEnumerable<IRegistryRecord> registryRecords = _registryEditorApplication.CreateRegistryRecordsObjs(fileContent);
+			List<string> fileContent = new List<string>(text);
 
-            foreach (IRegistryRecord regRecord in registryRecords) {
-                string recordExistsTxt = "";
+			if (fileContent == null || fileContent.Count == 0) {
+				PrintTextLine("No content was extracted from a given file!");
+				PrintTextLine(_abortProgStr);
+				Console.ReadKey();
+				return;
+			}
 
-                if (_registryEditorApplication.RegistryRecordExists(regRecord)) {
-                    recordExistsTxt = "[+]";
-                } else {
-                    recordExistsTxt = "[X]";
-                }
+			IList<IRegistryRecord> registryRecords = (IList<IRegistryRecord>)_registryEditorApplication.CreateRegistryRecordsObjs(fileContent);
 
-                PrintTextLine(recordExistsTxt + " " + regRecord.ToString());
-            }
+			if (registryRecords == null || registryRecords.Count() == 0) {
+				PrintTextLine("No registry paths were extracted from a given file!\n" +
+					"Check the file content for errors.");
+				PrintTextLine(_abortProgStr);
+				Console.ReadKey();
+				return;
+			}
 
-            _registryEditorApplication.SetRegistryValue(registryRecords.Where(x => x.ValueName == "MenuShowDelay").FirstOrDefault());
+			PrintTextLine("\nRegistry Records that were fetched from the given file:");
 
-            Console.ReadLine();
-        }
-        #region Basic console IO methods
-        private static string GetUserInput() {
-            string userInput;
+			foreach (IRegistryRecord regRecord in registryRecords) {
+				string recordExistsTxt = "";
 
-            userInput = Console.ReadLine();
-            userInput = userInput.Trim();
+				if (_registryEditorApplication.RegistryRecordExists(regRecord)) {
+					recordExistsTxt = _regRecExistStr;
+				} else {
+					recordExistsTxt = _regRecNotExistStr;
+				}
 
-            return userInput;
-        }
+				PrintTextLine(recordExistsTxt + " " + regRecord.ToString());
+			}
 
-        private static void PrintText(string text) {
-            Console.Write(text);
-        }
+			PrintTextLine($"  *{_regRecExistStr} - record exist but contains another value\n" +
+						  $"   {_regRecNotExistStr} - record was not found in the registry\n");
 
-        private static void PrintTextLine(string text) {
-            Console.WriteLine(text);
-        }
-        #endregion
-        #region Structured console output methods
-        private static void PrintGreeting() {
+			PrintTextLine("You are about to make changes to your registry." +
+				"Please, type 'YES' if you agree to proceed.");
+			string userAnswer = GetUserInput();
 
-        }
+			IEnumerable<bool> changedValues;
 
-        private static void PrintMenu() {
+			if (userAnswer.ToLower() == "yes") {
+				PrintTextLine("Setting the registry values...");
+				changedValues = _registryEditorApplication.SetRegistryValues(registryRecords);
+			} else {
+				PrintTextLine("You have aborted the changes.");
+				Console.ReadKey();
+				return;
+			}
 
-        }
+			int numberOfChangedValues = changedValues.Where(x => x == true).Count();
 
-        private static void PrintRegistryRecord() {
+			bool atLeastOneNotChangedValue = changedValues.Count() > numberOfChangedValues;
 
-        }
-        #endregion
-    }
+			if (numberOfChangedValues > 0) {
+				PrintTextLine($"{numberOfChangedValues} registry value(s) was/were set.");
+			}
+
+			if (atLeastOneNotChangedValue) {
+				PrintTextLine("The following registry value(s) was/were NOT changed:");
+
+				int i = 0;
+				foreach (bool changedValue in changedValues) {
+					if (changedValue == false) {
+						PrintTextLine(registryRecords[i].ToString());
+					}
+				}
+			}
+
+			Console.ReadLine();
+		}
+		#region Basic console IO methods
+		private static string GetUserInput() {
+			string userInput;
+
+			userInput = Console.ReadLine();
+			userInput = userInput.Trim();
+
+			return userInput;
+		}
+
+		private static void PrintText(string text) {
+			Console.Write(text);
+		}
+
+		private static void PrintTextLine(string text) {
+			Console.WriteLine(text);
+		}
+		#endregion
+		#region Structured console output methods
+		private static void PrintGreeting() {
+
+		}
+
+		private static void PrintMenu() {
+
+		}
+
+		private static void PrintRegistryRecord() {
+
+		}
+		#endregion
+	}
 }

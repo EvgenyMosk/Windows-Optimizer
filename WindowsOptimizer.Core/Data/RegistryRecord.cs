@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 using Microsoft.Win32;
 
 namespace WindowsOptimizer.Core.Data {
     public class RegistryRecord : IRegistryRecord {
-        //Refactor to use only getters
         #region Properties and Fields
-        public RegistryKey Root { get; set; }
-        public string Key { get; set; }
-        public string ValueName { get; set; }
-        public object Value { get; set; }
-        public RegistryValueKind ValueKind { get; set; }
+        public RegistryKey Root { get; }
+        public string Key { get; }
+        public string ValueName { get; }
+        public object Value { get; }
+        public RegistryValueKind ValueKind { get; }
 
         #endregion
         #region Constructors
@@ -56,48 +56,68 @@ namespace WindowsOptimizer.Core.Data {
             return Root + "\\" + Key + ", " + ValueName + "=" + Value + " (" + ValueKind.ToString() + ")";
         }
 
-        // Overload == and != operators
-        // Use referenceEquals
         public override bool Equals(object obj) {
-            return obj is RegistryRecord otherRegistryRecord
-                && Root == otherRegistryRecord.Root
-                && Key == otherRegistryRecord.Key
-                && ValueName == otherRegistryRecord.ValueName
-                && (string)Value == (string)otherRegistryRecord.Value
-                && ValueKind == otherRegistryRecord.ValueKind;
+            if (obj == null) {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj)) {
+                return true;
+            }
+
+            if (GetType() != obj.GetType()) {
+                return false;
+            }
+
+            return Equals(obj as RegistryRecord);
         }
 
         public override int GetHashCode() {
             return base.GetHashCode();
         }
 
-        //Consider deleting this method
-        public int CompareTo(IRegistryRecord other) {
+        public bool Equals(IRegistryRecord other) {
             if (other == null) {
-                throw new ArgumentNullException(nameof(other));
+                return false;
             }
 
-            int compareToResult_Root = Root.ToString().CompareTo(other.Root.ToString());
-            if (compareToResult_Root == 0) {
-                int compareToResult_Key = Key.ToString().CompareTo(other.Key.ToString());
-                if (compareToResult_Key == 0) {
-                    int compareToResult_ValueName = ValueName.ToString().CompareTo(other.ValueName.ToString());
-                    if (compareToResult_ValueName == 0) {
-                        int compareToResult_Value = Value.ToString().CompareTo(other.Value.ToString());
-                        if (compareToResult_Value == 0) {
-                            return ValueKind.CompareTo(other.ValueKind);
-                        } else {
-                            return compareToResult_Value;
-                        }
-                    } else {
-                        return compareToResult_ValueName;
-                    }
-                } else {
-                    return compareToResult_Key;
-                }
-            } else {
-                return compareToResult_Root;
+            if (ReferenceEquals(this, other)) {
+                return true;
             }
+
+            if (GetType() != other.GetType()) {
+                return false;
+            }
+
+            //IList<int> comparisonResult = new List<int>();
+            //IList<PropertyInfo> thisProperties = GetType().GetProperties().ToList();
+            //IList<PropertyInfo> otherProperties = other.GetType().GetProperties().ToList();
+
+            //if (thisProperties.Count != otherProperties.Count) {
+            //    return false;
+            //}
+
+            IList<int> comparisonResult = new List<int> {
+                string.Compare(Root.ToString(), other.Root.ToString()),
+                string.Compare(Key,other.Key),
+                string.Compare(ValueName,other.ValueName),
+                string.Compare(Value.ToString(),other.Value.ToString()),
+                string.Compare(ValueKind.ToString(),other.ValueKind.ToString())
+            };
+
+            if (comparisonResult.Sum() == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public static bool operator ==(RegistryRecord recordLeft, RegistryRecord recordRight) {
+            return ReferenceEquals(recordLeft, recordRight);
+        }
+
+        public static bool operator !=(RegistryRecord recordLeft, RegistryRecord recordRight) {
+            return ReferenceEquals(recordLeft, recordRight);
         }
     }
 }

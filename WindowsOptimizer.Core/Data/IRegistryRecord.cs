@@ -6,11 +6,11 @@ using System.Text;
 using Microsoft.Win32;
 
 namespace WindowsOptimizer.Core.Data {
-    public interface IRegistryRecord : IComparable<IRegistryRecord> {
-        RegistryKey Root { get; set; }
-        string Key { get; set; }
-        string ValueName { get; set; }
-        object Value { get; set; }
-        RegistryValueKind ValueKind { get; set; }
+    public interface IRegistryRecord : IEquatable<IRegistryRecord> {
+        RegistryKey Root { get; }
+        string Key { get; }
+        string ValueName { get; }
+        object Value { get; }
+        RegistryValueKind ValueKind { get; }
     }
 }
