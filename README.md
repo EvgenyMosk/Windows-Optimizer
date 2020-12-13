@@ -11,8 +11,8 @@ ____________________________________
 * User privileges level: **Administrator**
 _______
 ## How to use it?
-### Backup your registry
-> Please, before changing you registry values using this software - [create a backup for your registry](https://support.microsoft.com/en-us/help/322756/how-to-back-up-and-restore-the-registry-in-windows).
+### Back up your registry
+> Please, before changing you registry values using this software - [create a back up for your registry](https://support.microsoft.com/en-us/help/322756/how-to-back-up-and-restore-the-registry-in-windows).
 1. Download an executable file (.exe) and a text file from the **Releases** page
 2. Launch the executable file with Administrator privileges
 3. Follow the instructions in the software GUI
