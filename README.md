@@ -1,5 +1,5 @@
 # Windows-Optimizer
-Lightweight Microsoft Windows optimizer
+Lightweight Microsoft Windows OS optimizer
 __________________________
 ## WARNING!
 This is an experimental version of the software. It was tested only on the limited number of PCs.  
