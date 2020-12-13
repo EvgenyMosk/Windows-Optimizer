@@ -30,5 +30,5 @@ _______
 > Any other word will be counted as "No" and the execution will be aborted.
 5. After changing is done, you can see the **number of changed records** and the **records that were not changed** for some reason
 
-### WPF, or Windows Forms GUI
-Only CLI GUI is currently supported.
+### GUI
+Only CLI UI is currently supported. Feature-rich Graphical UI will be added in the future.
