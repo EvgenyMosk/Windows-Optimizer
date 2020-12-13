@@ -1,2 +1,10 @@
-HKEY_CURRENT_USER\Control Panel\Desktop,MenuShowDelay,123,expandstring
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management,DisablePagingExecutive,1,dword
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management,LargeSystemCache,1,dword
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced,SeparateProcess,1,dword
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon,AutoRestartShell,1,dword
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer,AlwaysUnloadDll,1,dword
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management,ClearPageFileAtShutdown,1,dword
+HKEY_CURRENT_USER\Control Panel\Desktop,AutoEndTasks,1,dword
+HKEY_CURRENT_USER\Control Panel\Desktop,HungAppTimeout,10000,string
+HKEY_CURRENT_USER\Control Panel\Desktop,WaitToKillAppTimeout,5000,string
 HKEY_CURRENT_USER\Control Panel\Desktop,HungAppTimeout,10000,string
