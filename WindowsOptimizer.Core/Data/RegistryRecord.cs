@@ -115,7 +115,7 @@ namespace WindowsOptimizer.Core.Data {
 		}
 
 		public static bool operator !=(RegistryRecord recordLeft, RegistryRecord recordRight) {
-			return ReferenceEquals(recordLeft, recordRight);
+			return !ReferenceEquals(recordLeft, recordRight);
 		}
 	}
 }
