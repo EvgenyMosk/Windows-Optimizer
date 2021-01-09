@@ -8,7 +8,7 @@ ____________________________________
 ## System requirements:
 * Operating System: **Windows 10** (Windows 7/8/8.1 were not tested)
 * Software Components: **.NET Framework 3.5** 
-> (you may be promted by your OS to install it, otherwise you can use "Turn Windows features on or off" in your OS and install it manually)
+> You may be promted by your OS to install it, otherwise you can use "Turn Windows features on or off" in your OS and install it manually
 * User privileges level: **Administrator**
 _______
 ## How to use it?
