@@ -19,8 +19,9 @@ namespace WindowsOptimizer.GUI.CLI {
 		private static void Main() {
 			_registryEditorApplication = new RegistryEditorApplication(new TxtToRegistryRecordSerializer(), new RegistryEditor(), new FileReader());
 
-			PrintTextLine("Enter the path to the file with the Registry Values (e.g. D:\\Documents\\My settings\\config.txt).");
-			PrintText("Path to file: ");
+			PrintTextLine("Enter the path to the file with the Registry Values (e.g. D:\\Documents\\My settings\\config.txt).\n" +
+				" *NOTE: Please, also specify the file extension (e.g. FileName.txt)\n" +
+				"Path to file: ");
 			string pathToFile = GetUserInput();
 
 			string[] text = null;

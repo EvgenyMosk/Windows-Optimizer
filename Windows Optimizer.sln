@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsOptimizer.Core", "Wi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsOptimizer.GUI.CLI", "WindowsOptimizer.GUI.CLI\WindowsOptimizer.GUI.CLI.csproj", "{A70C42D1-3667-438A-B145-D0ED805CFD57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsOptimizer.Core.Test", "WindowsOptimizer.Core.Test\WindowsOptimizer.Core.Test.csproj", "{B36B5914-C69B-4360-8DF9-A707EFC8A0F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsOptimizer.Core.Tests", "WindowsOptimizer.Core.Test\WindowsOptimizer.Core.Tests.csproj", "{B36B5914-C69B-4360-8DF9-A707EFC8A0F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsOptimizer.Application", "WindowsOptimizer.Application\WindowsOptimizer.Application.csproj", "{368075B8-0919-4C00-A8F5-F5641ECB440F}"
 EndProject

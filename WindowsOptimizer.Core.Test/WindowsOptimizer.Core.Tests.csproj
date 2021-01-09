@@ -55,8 +55,11 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Data\RegistryRecordTests.cs" />
+    <Compile Include="ExtensionMethods\StringExtensionsTests.cs" />
+    <Compile Include="File Readers\FileReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serializers\TxtToRegistryRecordTest.cs" />
+    <Compile Include="Serializers\TxtToRegistryRecordTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
