@@ -3,7 +3,7 @@
 Check if a Given Registry Record (Registry Entry) exists
 
 Background: 
- Given User have a Registry Editor App
+ Given User has a Registry Editor App
 
 @Registry,@RegistryRecord,@UsingResourcesWeHaveNoControlOver
 Scenario: Check that Registry record Created by Microsoft by default exists

@@ -21,7 +21,7 @@ namespace WindowsOptimizer.Application.Specflow.IntegrationTests.Steps {
 			_scenarioContext = scenarioContext;
 		}
 
-		[Given(@"User have a Registry Editor App")]
+		[Given(@"User has a Registry Editor App")]
 		public void GivenUserHaveRegistryEditorApp() {
 			_registryEditorApplication = new RegistryEditorApplication(
 												new FakeSerializer(),
