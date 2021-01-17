@@ -30,4 +30,8 @@
     <Folder Include="Hooks\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WindowsOptimizer.Application\WindowsOptimizer.Application.csproj" />
+  </ItemGroup>
+
 </Project>

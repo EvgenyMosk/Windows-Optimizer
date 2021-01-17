@@ -91,17 +91,26 @@ namespace WindowsOptimizer.Application.Specflow.IntegrationTests.Features
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 5
+#line hidden
+#line 6
+ testRunner.Given("User have a Registry Editor App", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Check that Registry Record Created by Microsoft exists")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Check that Registry record Created by Microsoft by default exists")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CheckIfRegistryRecordExists")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Registry,@RegistryRecord,@UsingResourcesWeHaveNoControlOver")]
-        public virtual void CheckThatRegistryRecordCreatedByMicrosoftExists()
+        public virtual void CheckThatRegistryRecordCreatedByMicrosoftByDefaultExists()
         {
             string[] tagsOfScenario = new string[] {
                     "Registry,@RegistryRecord,@UsingResourcesWeHaveNoControlOver"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check that Registry Record Created by Microsoft exists", null, tagsOfScenario, argumentsOfScenario);
-#line 6
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check that Registry record Created by Microsoft by default exists", null, tagsOfScenario, argumentsOfScenario);
+#line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -121,12 +130,64 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 7
- testRunner.Given("A record \"HKEY_CURRENT_USER, Control Panel\\Desktop, MenuShowDelay\" exist in Windo" +
-                        "ws Registry", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+this.FeatureBackground();
 #line hidden
-#line 8
- testRunner.Then("We see the verification that the record exists (it\'s value doesn\'t matter)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
+ testRunner.Given("A Registry record \"HKEY_CURRENT_USER\\Control Panel\\Desktop,MenuShowDelay\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 11
+   testRunner.And("User wants to check if this record exist in Windows Registry", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 12
+  testRunner.Then("The verification result equals to \"true\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Check that a given Registry record NOT exists")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CheckIfRegistryRecordExists")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Registry,@RegistryRecord,@UsingResourcesWeHaveNoControlOver")]
+        public virtual void CheckThatAGivenRegistryRecordNOTExists()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Registry,@RegistryRecord,@UsingResourcesWeHaveNoControlOver"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check that a given Registry record NOT exists", null, tagsOfScenario, argumentsOfScenario);
+#line 15
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 5
+this.FeatureBackground();
+#line hidden
+#line 16
+ testRunner.Given("A Registry record \"HKEY_CURRENT_USER\\Some Imagined Path\\Test,SomeValueNameThatSho" +
+                        "uldNotExist\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 17
+   testRunner.And("User wants to check if this record exist in Windows Registry", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 18
+  testRunner.Then("The verification result equals to \"false\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
