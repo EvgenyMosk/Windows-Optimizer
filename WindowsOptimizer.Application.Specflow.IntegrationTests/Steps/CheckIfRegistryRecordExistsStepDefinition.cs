@@ -25,7 +25,7 @@ namespace WindowsOptimizer.Application.Specflow.IntegrationTests.Steps {
 		public void GivenUserHaveRegistryEditorApp() {
 			_registryEditorApplication = new RegistryEditorApplication(
 												new FakeSerializer(),
-												new RegistryEditor(), // We need a real RegistryEditor for test
+												new RegistryEditor(), // Need a real RegistryEditor for test
 												new FakeFileReader());
 		}
 
@@ -49,7 +49,7 @@ namespace WindowsOptimizer.Application.Specflow.IntegrationTests.Steps {
 			string value = "";
 			RegistryValueKind valueKind = RegistryValueKind.DWord;
 
-			// 
+			// If "optional" parameters given - set them for RegistryRecord
 			if (regRecordSplit.Length >= 3) {
 				value = regRecordSplit[2];
 			}
@@ -57,10 +57,7 @@ namespace WindowsOptimizer.Application.Specflow.IntegrationTests.Steps {
 				valueKind = (RegistryValueKind)Enum.Parse(typeof(RegistryValueKind), regRecordSplit[3], true);
 			}
 
-			//TxtToRegistryRecordSerializer serializer = new TxtToRegistryRecordSerializer();
-
 			_registryRecord = new RegistryRecord(root, key, valueName, value, valueKind);
-			//(RegistryRecord)serializer.StringToRegistryRecord(regRecord);
 		}
 
 		[Given(@"User wants to check if this record exist in Windows Registry")]

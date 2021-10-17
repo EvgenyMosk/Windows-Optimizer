@@ -96,7 +96,7 @@ namespace WindowsOptimizer.Application.Specflow.IntegrationTests.Features
 #line 5
 #line hidden
 #line 6
- testRunner.Given("User have a Registry Editor App", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("User has a Registry Editor App", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
