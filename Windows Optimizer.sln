@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsOptimizer.Core.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsOptimizer.Application", "WindowsOptimizer.Application\WindowsOptimizer.Application.csproj", "{368075B8-0919-4C00-A8F5-F5641ECB440F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsOptimizer.Application.Specflow.IntegrationTests", "WindowsOptimizer.Application.Specflow.IntegrationTests\WindowsOptimizer.Application.Specflow.IntegrationTests.csproj", "{A038FC24-13A4-4AEA-88C1-DF615D3F8C01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{368075B8-0919-4C00-A8F5-F5641ECB440F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{368075B8-0919-4C00-A8F5-F5641ECB440F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{368075B8-0919-4C00-A8F5-F5641ECB440F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A038FC24-13A4-4AEA-88C1-DF615D3F8C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A038FC24-13A4-4AEA-88C1-DF615D3F8C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A038FC24-13A4-4AEA-88C1-DF615D3F8C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A038FC24-13A4-4AEA-88C1-DF615D3F8C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
